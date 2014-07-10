@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SNS</string>
+    <string name="action_search">친구찾기</string>
+    <string name="action_menu">메뉴</string>
+    <string name="action_settings">설정</string>
+    <string name="action_logout">로그아웃</string>
+    <string name="action_info">정보</string>
+
+</resources>

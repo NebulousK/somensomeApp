@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 로그인화면 -->
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10px"
+    android:stretchColumns="1" >
+
+    <EditText
+  	android:layout_gravity="center"  
+     android:layout_width="200dip" 
+     android:layout_height="200dip" 
+     android:background="@drawable/edittext"
+     />
+    
+</TableLayout>
