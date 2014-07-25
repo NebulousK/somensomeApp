@@ -20,11 +20,11 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 public class MainActivity extends TabActivity implements OnTabChangeListener  {
-	final static String NEWS="´º½ºÇÇµå";
-	final static String FR="Ä£±¸¸ñ·Ï";
-	final static String SNS="½æ";
-	final static String GPS="Áöµµ";
-	final static String MSG="ÂÊÁö";
+	final static String NEWS="ë‰´ìŠ¤í”¼ë“œ";
+	final static String FR="ì¹œêµ¬ëª©ë¡";
+	final static String SNS="ì¸";
+	final static String GPS="ì§€ë„";
+	final static String MSG="ìª½ì§€";
 	
 	private TabHost tabHost;
 	Animation translateLeftAnim;
@@ -57,15 +57,12 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 							float distance = 0;
 							switch (event.getAction()) {
 							case MotionEvent.ACTION_DOWN:
-								// ¼Õ°¡¶ôÀ» touch ÇßÀ» ‹š x ÁÂÇ¥°ª ÀúÀå
 								pressedX = event.getX();
 								break;
 							case MotionEvent.ACTION_UP:
-								// ¼Õ°¡¶ôÀ» ¶¼¾úÀ» ¶§ ÀúÀåÇØ³õÀº xÁÂÇ¥¿ÍÀÇ °Å¸® ºñ±³
 								distance = pressedX - event.getX();
 								break;
 							}
-							// ÇØ´ç °Å¸®°¡ 100ÀÌ µÇÁö ¾ÊÀ¸¸é ÀÌº¥Æ® Ã³¸® ÇÏÁö ¾Ê´Â´Ù.
 							if (Math.abs(distance) < 100) {
 								return false;
 							}
@@ -88,7 +85,6 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 			tabHost.getTabWidget().getChildAt(tab).getLayoutParams().height=130;
 		}
 		tabHost.setOnTabChangedListener(this);
-		
 		setTitle("Some N Some");
 		getActionBar().setIcon(R.drawable.actiontitle);
 		
@@ -99,39 +95,27 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 
 	 private void setupTab(TextView view, String tag) {
 		View tabview = createTabView(tabHost.getContext(),tag);
-		
 		TabSpec setContent = tabHost.newTabSpec(tag).setIndicator(tabview);
-	
-		
 		if(tag.equals(NEWS)){
 			setContent.setContent(new Intent(this, activity_news.class));
-		
 		}
 		else if(tag.equals(FR)){
 			setContent.setContent(new Intent(this, activity_friend.class));
-		
 		}
 		else if(tag.equals(SNS)){
 			setContent.setContent(new Intent(this, activity_sns.class));
-		
 		}
 		else if(tag.equals(GPS)){
 			setContent.setContent(new Intent(this, activity_gps.class));
-			
 		}
 		else if(tag.equals(MSG)){
 			setContent.setContent(new Intent(this, activity_msg.class));
-			
 		}
-	
 		tabHost.addTab(setContent);
 		
 	}
      
-	
-	//tab¿¡ ³ªÅ¸³¯ view ±¸¼º
 	private View createTabView(Context context, String text) {
-		//layoutinflater¸¦ ÀÌ¿ëÇØ xml¸®¼Ò½º¸¦ ÀĞ¾î¿È
 		View view =LayoutInflater.from(context).inflate(R.layout.activity_tabwidget, null);
 		ImageView img;
 		
@@ -164,7 +148,6 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 		return view;
 	}
 
-	//ÅÇÅ¬¸¯½Ã ¹è°æ º¯°æ
 	@Override
 	public void onTabChanged(String tabId) {
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
@@ -175,11 +158,11 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 	}
 
 
-	//¸Ş´º
+	//ï¿½Ş´ï¿½
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	
-	    SubMenu subMenu=menu.addSubMenu(0,0,2,"¼³Á¤").setIcon(R.drawable.ic_action_settings);
+	    SubMenu subMenu=menu.addSubMenu(0,0,2,"ì„¤ì •").setIcon(R.drawable.ic_action_settings);
 	    subMenu.add(0,2,2,R.string.action_logout);
 	    subMenu.add(0, 3, 3, R.string.action_settings);
 	    subMenu.add(0, 4, 4, R.string.action_info);
@@ -208,13 +191,5 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	private void openMenu() {
-	 
-        
-	}
-	
-	
-	
 	
 }

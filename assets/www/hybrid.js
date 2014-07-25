@@ -1,79 +1,76 @@
-
-		function callPhone(phoneNum)
+		function callTest() 
 		{
-			
-			if(window.NativeBridge == undefined)
+			if(window.NativeBridge == null)
 			{
-				alert('모바일 단말과 연결되어 있지 않습니다.');
+				alert("모바일 기기와 연결할 수 없습니다.");
 				return;
-			}
-			window.NativeBridge.callPhone(phoneNum);
+			}	
+			window.NativeBridge.callTest('aaa');
 		}
-		function callSms(phoneNum, smsCont)
-		{ 			
-			if(window.NativeBridge == undefined)
+		function receiveTest(Jv_Value) 
+		{
+			document.forms[0].Fo_Test.value = Jv_Value;
+		}
+		function callPhone()
+		{
+			if(window.NativeBridge == null)
 			{
-				alert('모바일 단말과 연결되어 있지 않습니다.');
+				alert("모바일 기기와 연결할 수 없습니다.");
 				return;
-			}
-			window.NativeBridge.callSms(phoneNum, smsCont);
+			}				
+			window.NativeBridge.callPhone(document.forms[0].Fo_Phone.value);
+		}
+		function callSms()
+		{		
+			if(window.NativeBridge == null)
+			{
+				alert("모바일 기기와 연결할 수 없습니다.");
+				return;
+			}					
+			window.NativeBridge.callSms(document.forms[0].Fo_Phone.value, document.forms[0].Fo_Sms.value);
+			
 		}
 		function callCamera()
-		{			
-			if(window.NativeBridge == undefined)
+		{	
+			if(window.NativeBridge == null)
 			{
-				alert('모바일 단말과 연결되어 있지 않습니다.');
+				alert("모바일 기기와 연결할 수 없습니다.");
 				return;
-			}
+			}		
 			window.NativeBridge.callCamera();
 		}
-		function callNetworkState(callbackFunc)
-		{			
-			if(window.NativeBridge == undefined)
+		function callNetworkState()
+		{	
+			if(window.NativeBridge == null)
 			{
-				alert('모바일 단말과 연결되어 있지 않습니다.');
+				alert("모바일 기기와 연결할 수 없습니다.");
 				return;
-			}
-			window.NativeBridge.callNetworkState(callbackFunc);
-			// callbackFunc(networkState);
-		}	
-		function receiveNetworkState(networkState)
-		{
-			alert(networkState);
+			}						
+			window.NativeBridge.callNetworkState();
 		}
-		
-		function callLocationPos(callbackFunc)
+		function receiveNetworkState(inputValue)
 		{			
-			if(window.NativeBridge == undefined)
-			{
-				alert('모바일 단말과 연결되어 있지 않습니다.');
-				return;
-			}
-			window.NativeBridge.callLocationPos(callbackFunc);
-			// callbackFunc(lng, lat);
-		}
-		function receiveLocationPos(lng, lat)
-		{
-			alert(lng + "," +  lat);
+			alert(inputValue);
 		}		
-		
-		function callMoviePlayer(movieUrl)
+		function callLocationPos()
+		{	
+			if(window.NativeBridge == null)
+			{
+				alert("모바일 기기와 연결할 수 없습니다.");
+				return;
+			}						
+			window.NativeBridge.callLocationPos();
+		}
+		function receiveLocationPos(lng,lat)
 		{			
-			if(window.NativeBridge == undefined) 
+			alert(lng + "," + lat);
+		}		
+		function callMoviePlayer(movieUrl)
+		{		
+			if(window.NativeBridge == null)
 			{
-				alert('모바일 단말과 연결되어 있지 않습니다.');
+				alert("모바일 기기와 연결할 수 없습니다.");
 				return;
-			}
+			}					
 			window.NativeBridge.callMoviePlayer(movieUrl);
-		}	
-		
-		function callFileUpload(httpaddr, filename)
-		{
-			if(window.NativeBridge == undefined) 
-			{
-				alert('모바일 단말과 연결되어 있지 않습니다.');
-				return;
-			}
-			window.NativeBridge.callFileUpload(httpaddr, filename);		
-		
-		}	
+		}		

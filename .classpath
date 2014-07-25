@@ -6,9 +6,10 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/sun/android-sdks/tools/lib/httpclient-4.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/sun/Desktop/eclipse/configuration/org.eclipse.osgi/bundles/1399/1/.cp/libs/httpclient-4.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/sun/Desktop/eclipse/configuration/org.eclipse.osgi/bundles/1399/1/.cp/libs/httpcore-4.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/sun/Desktop/eclipse/configuration/org.eclipse.osgi/bundles/1399/1/.cp/libs/httpmime-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jhta/android-sdks/tools/lib/httpclient-4.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jhta/android-sdks/tools/lib/httpcore-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jhta/android-sdks/tools/lib/httpmime-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jhta/Desktop/libs/commons-fileupload-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jhta/Desktop/libs/commons-io-1.4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

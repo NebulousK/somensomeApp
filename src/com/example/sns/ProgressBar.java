@@ -4,7 +4,7 @@ import android.content.Context;
 public class ProgressBar {
 	private Context				mCtx;
 	private ProgressDialog 		prgrDlg;	
-	private String				strMessage = "잠시만 기다려 주십시요...";
+	private String				strMessage = "Now Loading...";
 
 	public ProgressBar(Context ctx) {
 		mCtx = ctx;		

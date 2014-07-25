@@ -5,23 +5,35 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Handler;
+import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
+
+import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
+
 import java.io.File;
+import java.lang.reflect.Method;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.location.Criteria;
@@ -42,6 +54,7 @@ public class activity_sns extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);    
 		setContentView(R.layout.activity_sns);
 		
 		mContext = this;
@@ -55,13 +68,56 @@ public class activity_sns extends Activity {
  		ws.setAppCacheEnabled(true);
  		ws.setSaveFormData(true);
  		
+ 		if (Build.VERSION.SDK_INT >= 16) {  
+ 			try{
+ 		    Class<?> clazz = mWebView.getSettings().getClass();
+ 		    Method method = clazz.getMethod("setAllowUniversalAccessFromFileURLs", boolean.class);
+ 		    if (method != null) {
+ 		        method.invoke(mWebView.getSettings(), true);
+ 		    }
+ 			}catch(Exception err){
+ 				Log.i("err",""+err);
+ 			}
+ 		}
  		mWebView.setNetworkAvailable(true);
 		mWebView.setWebChromeClient(new ChromeClient(this));
 		mWebView.setWebViewClient(new webviewClient(this));
+		
 		mWebView.setScrollbarFadingEnabled(true);
 		mWebView.setVerticalScrollBarEnabled(false);
 		mWebView.setHorizontalScrollBarEnabled(false);		
-		String strUrl = "file:///android_asset/www/somensome.html";
+		mWebView.addJavascriptInterface(new Object(){
+			@JavascriptInterface
+			public String id() {
+				return var.id;
+			}	
+			@JavascriptInterface
+			public int no() {
+				return var.no; 
+			}	 
+			@JavascriptInterface
+			public String sex() {
+				return var.sex;
+			}	 
+			@JavascriptInterface
+			public String photo() {
+				return var.photo;
+			}	 
+			@JavascriptInterface
+			public String name() {
+				return var.name;
+			}
+			@JavascriptInterface
+			public String some() {
+				return var.some;
+			}	 
+		}, "android");
+		String strUrl=null;
+		if(var.some.equals(0)){
+			strUrl = "file:///android_asset/www/somensome.html";
+		}else{
+			strUrl = "file:///android_asset/www/somensome2.html";
+		}
 	    mWebView.loadUrl(strUrl);
 	    prgrBar = new ProgressBar(this); 
 	}
@@ -77,7 +133,7 @@ public class activity_sns extends Activity {
 		@Override
 		public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
 			new AlertDialog.Builder(pCtx)
-			.setTitle("¾È³»").setMessage(message)
+			.setTitle("ì•ˆë‚´").setMessage(message)
 			.setNeutralButton(android.R.string.ok,  
                     new DialogInterface.OnClickListener() {  
                         public void onClick(DialogInterface dialog, int which) { 
@@ -91,7 +147,7 @@ public class activity_sns extends Activity {
 		@Override
 		public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
 			new AlertDialog.Builder(pCtx)
-			.setTitle("¾È³»").setMessage(message)
+			.setTitle("ì•ˆë‚´").setMessage(message)
 			.setPositiveButton(android.R.string.ok,  
                     new DialogInterface.OnClickListener() {  
                         public void onClick(DialogInterface dialog, int which) { 

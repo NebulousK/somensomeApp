@@ -7,5 +7,7 @@
     <string name="action_settings">설정</string>
     <string name="action_logout">로그아웃</string>
     <string name="action_info">정보</string>
+	<string name="earray">i</string>
 
+ 
 </resources>
