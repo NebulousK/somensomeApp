@@ -98,7 +98,7 @@ public class activity_login extends Activity {
 		
 		public HttpClient client =new DefaultHttpClient();
 		CookieManager cookieManager=CookieManager.getInstance();
-		String postURL = "http://192.168.10.31/homepage/android/adroid_member_login.jsp";
+		String postURL = "http://192.168.219.129:8080/homepage/android/adroid_member_login.jsp";
 
 		@Override
 		protected Void doInBackground(Void... params) {

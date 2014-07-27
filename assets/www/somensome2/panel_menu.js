@@ -63,7 +63,8 @@ menu.panel_menu = new Ext.form.FormPanel({
                 textAlign:'center',
                 text:'<div align="center"><img src= "'+ local_img + 'photo1.png">사진첩</div>',
                 handler: function(){
-                	/* document.location = "somensome2_1.html?no=" + common_no;  */
+               	 	document.location = "somensome2_1.html?no="+ common_no;
+                	//document.location = "somensome2_1.html?";
                }
             },{ 
                 xtype:'spacer',

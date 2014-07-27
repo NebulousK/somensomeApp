@@ -1,4 +1,4 @@
-var common_url = "http://192.168.10.31/homepage";
+var common_url = "http://192.168.219.129:8080/homepage";//"http://192.168.10.31/homepage";
 var local_img = "./img/";
 var android_img = "./img/";
 var iphone_img = "";

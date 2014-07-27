@@ -45,8 +45,8 @@ main.initMainPanel = function()
                     cls:'Search',
                     text: '<div align="center"><img src= "'+ local_img + 'photo1.png">Photo</div>',
                     handler: function(btn,event){
-//                    	 document.location = "somensome2_1.html?no="+ common_no;
-                    	document.location = "somensome2_1.html;
+                    	document.location = "somensome2_1.html?no="+ common_no;
+                    	//document.location = "somensome2_1.html";
                     }
                 },
                 {   

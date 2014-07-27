@@ -23,7 +23,9 @@ Ext.regController("Album", {
                 }
             }
         });
-        albumView.dataView.store.proxy.url = common_url + '/mluvphoto.some?'+ common_no;
+          albumView.dataView.store.proxy.url = common_url + '/mluvphoto.some?no='+ common_no;
+       // albumView.dataView.store.proxy.url = 'http://192.168.219.129:8080/homepage/mluvphoto.some?no=532';
+
         albumView.query('#albumToolbar')[0].setTitle("SomeNsomE");            
         
         Gallery.viewport.setActiveItem(albumView, {
@@ -53,7 +55,8 @@ Ext.regController("Album", {
                 }
             }
         });
-        albumView.dataView.store.proxy.url = common_url + '/mluvphoto.some?'+ common_no;
+        albumView.dataView.store.proxy.url = common_url + '/mluvphoto.some?no='+ common_no;
+       // albumView.dataView.store.proxy.url = 'http://192.168.219.129:8080/homepage/mluvphoto.some?no=532';
         
         albumView.query('#albumToolbar')[0].setTitle("SomeNsomE");            
             

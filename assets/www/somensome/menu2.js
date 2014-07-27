@@ -48,7 +48,7 @@ callme.init = function(){
         getCallmeList:function()
         {
             Ext.Ajax.request({
-                url: common_url + '/mcall.some?no=570',
+                url: common_url + '/mcall.some?no='+ common_no,
                 success: function(response, opts) {
                     console.log(response.responseText);
                     var JsonData = JSON.parse(response.responseText);
