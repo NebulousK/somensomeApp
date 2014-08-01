@@ -6,7 +6,7 @@ friend.init = function(){
     var friendStore;
     
     Ext.regModel('friend', {
-        fields: ['photo','name','no']
+        fields: ['photo','id','no']
     });     
 
     friendStore = new Ext.data.Store({
@@ -22,19 +22,21 @@ friend.init = function(){
         height:'100%',
         blockRefresh:true,
         onItemDisclosure: {
-            handler: function(record, btn, index) {
-            	main.MainPanel.layout.setActiveItem(mcall.panel_mcall);
-            	mcall.panel_mcall.setUserId(record.get('name'));
-            	mcall.panel_mcall.getUserInfo();
+            handler: function(record, btn, index) {	
+            	message.init();
+            	message.panel_message.setUserId(record.get('id'));
+            	message.panel_message.getmessageList();
+            	main.MainPanel.layout.setActiveItem(message.panel_message);
+            	message.panel_message.setActiveItem(message.panel_message.messageList2);
             }
         },
-        itemTpl:'<div><div style="float: left"><input type="hidden" name="no" value="{no}"/><img src="'+ common_url +'/profile/{photo}" width="50px" height="50px" /></div><div style="float: left"><div style="float: left"><strong>이름 : {name}</strong></div></div>',
+        itemTpl:'<div style="float: left"><input type="hidden" name="no" value="{no}"/><img src="{photo}" width="50px" height="50px" /></div><div style="float: left; height:50px;line-height:50px;">&nbsp;&nbsp;&nbsp;<strong>이름 : {id}</strong></div>',
     });        
 
     function setfriendList(Jv_data) {
         friendStore = new Ext.data.Store({
             model :'friend',
-            data:Jv_data,
+            data: Jv_data,
         });
         Ext.getCmp('friendList').bindStore(friendStore);    
     };

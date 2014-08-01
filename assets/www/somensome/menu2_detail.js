@@ -35,6 +35,7 @@ mcall.panel_mcall = new Ext.form.FormPanel({
         var psnPic =  '<table width="100%"><tr><td><center>' + 
                       '<img src="' + common_url + 
                       '/profile/' +  callme.pic +  '" width="100%"></td></tr></table>';
+        Ext.getCmp("call.no").setValue(callme.no);
         Ext.getCmp("call.name").setValue(callme.name);
         Ext.getCmp("call.age").setValue(callme.age);
         Ext.getCmp("call.blood").setValue(callme.blood);
@@ -70,6 +71,16 @@ mcall.panel_mcall = new Ext.form.FormPanel({
                 xtype: 'fieldset',
                 html:'',            
             }]
+            },
+            {
+                xtype:'textfield',
+                label:'no ',
+                id:'call.no', 
+                disabled : true,
+                disabledCls: 'af-item-disabled',
+                autoCapitalisze:true,
+                useClearIcon:false
+                            
             },
             {
                 xtype:'textfield',
@@ -177,7 +188,13 @@ mcall.panel_mcall = new Ext.form.FormPanel({
                       textAlign:'center',
                       text: '수락',    
                       handler:function(){                                     
-                           main.MainPanel.layout.setActiveItem(list.panel_list); 
+                    	  Ext.Ajax.request({
+                              url: common_url + '/mcallup.some?userID=' + common_no + '&itemID='  +  Ext.getCmp("call.no").getValue() + '&state=1&sex=' + common_sex,
+                              success: function(response, opts) {
+                                  alert("좋은 인연이 시작되길 바래요!!");  
+                                  document.location = "somensome2.html";
+                              }
+                          });  
                       },
                   },{ 
                       xtype:'spacer',
@@ -189,7 +206,15 @@ mcall.panel_mcall = new Ext.form.FormPanel({
                       textAlign:'center',
                       text:'거절',
                       handler:function(){                                     
-                          main.MainPanel.layout.setActiveItem(list.panel_list); 
+                    	  Ext.Ajax.request({
+                    		  url: common_url + '/mcallup.some?userID=' + Ext.getCmp("call.no").getValue() + '&itemID='  + common_no + '&state=2&sex=' + common_sex,
+                              success: function(response, opts) {
+                                  alert("인연이 아니였나 보군요!");   
+                                  callme.init();
+                              	  callme.panel_callme.getCallmeList();
+                                  main.MainPanel.layout.setActiveItem(callme.panel_callme);
+                              }
+                          });  
                       },
                   }]
            	}]                          

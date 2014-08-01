@@ -1,170 +1,111 @@
-﻿Ext.ns("dash");
-Ext.ns("dash.panel_dash");
+﻿Ext.ns("scrollList");
+Ext.ns("scrollList.panel");
 
-dash.panel_dash = new Ext.form.FormPanel({
-	fullscreen: true,
-    useCurrentLocation: true,               
-    scroll:'vertical',
-    cardSwitchAnimation:"cube",
-    width: '100%',
-    getUserInfo:function()
-    {
-        Ext.Ajax.request({
-            url: common_url + '/mdash.some?no='+ common_no +'&sex=' + common_sex, //common_url + '/mdash.some?no=532&sex=man',
+scrollList.init = function() {
+	var i=5;
+	
+    Ext.regModel('someboard', {
+    	fields: ['pic', 'name', 'date', 'content']
+    });
+    
+    var orgData= [];              
+    var addData= [];
+    
+    var store =   new Ext.data.Store({
+            model: 'someboard',
+            sorters: 'date',                
+            data: orgData,
+            autoLoad:true,
+        });             
+
+    var someboard_list = new Ext.List({
+		name:'someboard_list',
+		blockRefresh:true,
+		height:400,
+		itemTpl: '<tpl for="."><div><table border="1" width="100%" ><tr><td rowspan="2" width="50px" height="50px"><img src="{pic}" style="max-width:100%"></td><td> {name}</td><tr><td>{date}</td></tr></tr><td colspan="2"><B>{content}</B></td></tr></table> </div></tpl>',			
+        store:store,
+	});
+	 
+    function setsomeboardList(Jv_data) {
+    	addData = Jv_data;
+    };
+    
+    function setsomeboardList2(Jv_data) {
+    	orgData = Jv_data;
+    	store.add(orgData);
+    };
+    
+    function getsomeboardList2(){
+    	Ext.Ajax.request({
+            url: common_url +'/mlubstory.some?no='+ common_no +'&num='+ i,
             success: function(response, opts) {
-                console.log(response.responseText);
+                //console.log(response.responseText);
                 var JsonData = JSON.parse(response.responseText);
-                console.log(JsonData);
+                //console.log(JsonData);
                 if(JsonData.data.err == "")
                 {
-                    dash.panel_dash.setPersonFields(JsonData.data.psn_detail);
+                	i += 5;
+                    setsomeboardList(JsonData.data.someboard_list);
                 }
                 else
                 {
                     alert(JsonData.data.err);
-                }                
+                }
+                
             }
-        });         
-    },  
-    setPersonFields:function(psndash)
-    {
-        var psnPic =  '<table width="100%"><tr><td><center>' + 
-                      '<img src="' + common_url + 
-                      '/profile/' +  psndash.pic +  '" width="100%"></td></tr></table>';
-        Ext.getCmp("dash.name").setValue(psndash.name);
-        Ext.getCmp("dash.age").setValue(psndash.age);
-        Ext.getCmp("dash.blood").setValue(psndash.blood);
-        Ext.getCmp("dash.height").setValue(psndash.height);
-        Ext.getCmp("dash.weight").setValue(psndash.weight);
-        Ext.getCmp("dash.addr").setValue(psndash.addr);
-        Ext.getCmp("dash.style").setValue(psndash.style);
-        Ext.getCmp("dash.fashion").setValue(psndash.fashion);
-        Ext.getCmp("dash.hobby").setValue(psndash.hobby);
-        Ext.getCmp("dash.comment").setValue(psndash.comment);
-        Ext.getCmp("dash.user_pic").update(psnPic);
-    },
-    layout: {
-        type: 'vbox',
-        pack: 'center',
-        align: 'stretch'
-    },
-    scroll: 'vertical',                         
-    items:
-    [{
-        xtype: 'fieldset',
-        title: '오늘의 추천 이성',
-        pack: 'center',
-        defaults: {
-            required: true,
-            labelAlign: 'left' ,
-            labelWidth:'100%',
-        },
-        items:[
-            {
-                xtype:'panel',
-                id:'dash.user_pic',
-                xtype: 'fieldset',
-                html:'',            
-            }]
-            },
-            {
-                xtype:'textfield',
-                label:'이름 ',
-                id:'dash.name', 
-                disabled : true,
-                disabledCls: 'af-item-disabled',
-                autoCapitalisze:true,
-                useClearIcon:false
-                            
-            },{
-                xtype:'textfield',
-                label:'나이 ',
-                id:'dash.age',
-                disabled : true,
-                disabledCls: 'af-item-disabled',
-                autoCapitalisze:true,
-                useClearIcon:false
-                            
-            },            
-            {
-                xtype:'textfield',
-                id:'dash.blood',
-                label:'혈액형',
-                disabled : true,
-                disabledCls: 'af-item-disabled',
-                autoCapitalisze:true,
-                useClearIcon:false
-                            
-            },    
-            {
-                xtype:'textfield',
-                id:'dash.height',
-                label:'키',
-                disabled : true,
-                disabledCls: 'af-item-disabled',
-                autoCapitalisze:true,
-                useClearIcon:false                          
-            },           
-            {
-           	 xtype:'textfield',
-                id:'dash.weight',
-                label:'몸무게',
-                disabled : true,
-                disabledCls: 'af-item-disabled',
-                autoCapitalisze:true,
-                useClearIcon:false   
-            }, 
-            {
-           	 xtype:'textfield',
-               id:'dash.addr',
-               label:'지역',
-               disabled : true,
-               disabledCls: 'af-item-disabled',
-               autoCapitalisze:true,
-               useClearIcon:false   
-            }, 
-            {
-         	 xtype:'textfield',
-              id:'dash.style',
-              label:'성격',
-              disabled : true,
-              disabledCls: 'af-item-disabled',
-              autoCapitalisze:true,
-              useClearIcon:false   
-           }, 
-           {
-         	 xtype:'textfield',
-              id:'dash.fashion',
-              label:'스타일',
-              disabled : true,
-              disabledCls: 'af-item-disabled',
-              autoCapitalisze:true,
-              useClearIcon:false   
-           }, 
-           {
-        	 xtype:'textfield',
-             id:'dash.hobby',
-             label:'취미',
-             disabled : true,
-             disabledCls: 'af-item-disabled',
-             autoCapitalisze:true,
-             useClearIcon:false   
-           }, 
-           {
-               xtype:'textareafield',
-               id:'dash.comment',
-               placeHolder:'작업멘트를 날리세요',
-               width : '100%',
-               useClearIcon:false,
-           },
-           {
-                xtype:'button',
-                ui: 'decline-round',                
-                name:'dash.button_close',
-                width:'100%',
-               	text:'대쉬!!!!',
-                handler:function(){                                     
-                   main.MainPanel.layout.setActiveItem(list.panel_list); 
-           },
-     }]                                  
-});     
+        }); 
+    }
+    
+    scrollList.panel = new Ext.Panel({
+        fullscreen: true,
+        html:'<BR><font size="2">아래로 내리면 글이 계속 나옴.',
+        getsomeboardList:function()
+        {
+            Ext.Ajax.request({
+                url: common_url +'/mlubstory.some?no='+ common_no +'&num='+ 0,
+                success: function(response, opts) {
+                    console.log(response.responseText);
+                    var JsonData = JSON.parse(response.responseText);
+                    console.log(JsonData);
+                    if(JsonData.data.err == "")
+                    {
+                        setsomeboardList2(JsonData.data.someboard_list);
+                    }
+                    else
+                    {
+                        alert(JsonData.data.err);
+                    }
+                    
+                }
+            });         
+        },dockedItems :[{
+        	id:'main.toolbar',
+            dock: 'bottom',
+            xtype: 'toolbar',
+            layout: {
+            	type: 'hbox',
+            	pack: 'center',
+        	},
+            items: [       
+                { 
+                	xtype:'button',
+                    ui: 'decline-round',
+                    name:'button_login',
+                    text: '글쓰기',
+                    width: '100%',
+                    handler: function(){
+						//alert(Ext.getCmp("message.comment").getValue());	
+                    } 
+                }
+            ]
+        }],
+        items: 	someboard_list,
+        addScrollList:function(a,b)
+        {
+        	if(b.offset <= 0)
+        		getsomeboardList2();
+        		store.add(addData);
+        }
+    });   
+ 	someboard_list.scroller.on('bouncestart', scrollList.panel.addScrollList, this);    
+};

@@ -21,8 +21,8 @@ scrollList.init = function() {
     var someboard_list = new Ext.List({
 		name:'someboard_list',
 		blockRefresh:true,
-		height:400,
-		itemTpl: '<tpl for="."><div><table border="1" width="100%" ><tr><td rowspan="2" width="25%"><img src="{pic}" style="max-width:100%"></td><td> {name}</td><tr><td>{date}</td></tr></tr><td colspan="2"><B>{content}</B></td></tr></table> </div></tpl>',			
+		height:'100%',
+		itemTpl: '<tpl for="."><div><table border="1" width="100%" ><tr><td rowspan="2" width="50px" height="50px"><img src="{pic}" style="max-width:100%"></td><td> {name}</td><tr><td>{date}</td></tr></tr><td colspan="2"><B>{content}</B></td></tr></table> </div></tpl>',			
         store:store,
 	});
 	 
@@ -58,7 +58,6 @@ scrollList.init = function() {
     
     scrollList.panel = new Ext.Panel({
         fullscreen: true,
-        html:'<BR><font size="2">아래로 내리면 글이 계속 나옴.',
         getsomeboardList:function()
         {
             Ext.Ajax.request({
@@ -79,15 +78,37 @@ scrollList.init = function() {
                 }
             });         
         },
+        dockedItems :[{
+        	id:'toolbar',
+            dock: 'bottom',
+            xtype: 'toolbar',
+            scrollable:true,
+            style: {
+                marginBottom: '47px'
+            },
+            layout: {
+            	type: 'hbox',
+            	pack: 'center',
+        	},
+            items: [
+                { 
+                	ui: 'decline-round',
+                    name:'button_login',
+                    text: '글쓰기',
+                    width: '100%',
+                    autoCapitalisze:true,
+                    handler: function(){
+                    	window.android2.write();
+					}               
+                }]
+        }],
         items: 	someboard_list,
         addScrollList:function(a,b)
         {
-        	//console.log(a);
-        	//console.log(b);
         	if(b.offset <= 0)
         		getsomeboardList2();
         		store.add(addData);
         }
     });   
- 	someboard_list.scroller.on('bouncestart', scrollList.panel.addScrollList, this);     	
-}
+ 	someboard_list.scroller.on('bouncestart', scrollList.panel.addScrollList, this);    
+};

@@ -31,7 +31,7 @@ public class AndroidUploader {
 
 	    enum ReturnCode { noPicture, unknown, http201, http400, http401, http403, http404, http500};
 
-	    private String TAG = "��Ƽ��Ʈ �׽�Ʈ";  
+	    private String TAG = "멀티파트테스트";  
 
 	    public AndroidUploader(String id, String content){
 			this.id = id;
@@ -88,7 +88,7 @@ public class AndroidUploader {
 	                dataStream.close();
 	                dataStream = null;
 	                
-	                Log.d("���ε� �׽�Ʈ", "***********��ۿϷ�***********");
+	                Log.d("업로드Test", "***********전송완료***********");
 
 	                String response = getResponse(conn);
 	                int responseCode = conn.getResponseCode();
@@ -150,6 +150,7 @@ public class AndroidUploader {
 	                
 	                System.out.println(id);
 	                writeFormField("id", id);
+	                writeFormField("id_no", id);
 	                writeFormField("content", content);
 
 	                // final closing boundary line

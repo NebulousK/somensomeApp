@@ -5,11 +5,8 @@ import java.io.*;
 import java.net.*;
 import android.util.Log;
 
-
-
-
 	public class AndroidUploade2{
-	    static String serviceDomain = "http://192.168.10.43:8080/homepage";
+	    static String serviceDomain = "http://192.168.10.31/homepage";
 	    static String postUrl = serviceDomain + "/android/android_member_join.jsp";
 	   // static  String str = URLDecoder.decode(postUrl , "utf-8"); 
 	    static String CRLF = "\r\n"; 
@@ -17,9 +14,6 @@ import android.util.Log;
 	    static String twoHyphens = "--"; 
 
 	    static String boundary = "*****b*o*u*n*d*a*r*y*****"; 
-
-
-
 
 	    private String pictureFileName = null;
 

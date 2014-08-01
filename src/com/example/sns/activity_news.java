@@ -13,8 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -22,6 +24,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 
 @SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
@@ -35,9 +38,29 @@ public class activity_news extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	   // setContentView(R.layout.activity_news);
+	    Window win = getWindow();
 	    setContentView(R.layout.activity_news);
-	    mContext = this;
-       	mWebView = (WebView)findViewById(R.id.webView1);
+	    //그다음 인플레이션으로 겹치는 레이아웃을 깐다
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout linear = (LinearLayout)inflater.inflate(R.layout.writeover, null);
+        LinearLayout.LayoutParams paramlinear = new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.FILL_PARENT,
+                      LinearLayout.LayoutParams.FILL_PARENT);
+        win.addContentView(linear, paramlinear);//이 부분이 레이아웃을 겹치는 부분
+        //add는 기존의 레이아웃에 겹쳐서 배치하라는 뜻이다.
+        ImageButton writeBtn = (ImageButton) findViewById(R.id.imagebtn);
+	    writeBtn.setOnClickListener(
+	    		new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent myin = new Intent(getApplicationContext(), WriteActivity.class);
+						startActivity(myin);
+					}
+				}
+	    ); 
+	    mContext = this;    
+	    mWebView = (WebView)findViewById(R.id.webView1);
 		WebSettings ws = mWebView.getSettings();
 		ws.setJavaScriptEnabled(true); 
 		ws.setPluginState(WebSettings.PluginState.ON);
@@ -89,20 +112,11 @@ public class activity_news extends Activity {
 				return var.some;
 			}	 
 		}, "android");
-		String strUrl = "file:///android_asset/www/somensome.html";
+		String strUrl = "file:///android_asset/www/index.html";
 	    mWebView.loadUrl(strUrl);    
 	    prgrBar = new ProgressBar(this); 
-	    ImageButton writeBtn = (ImageButton) findViewById(R.id.imagebtn); 
-	    writeBtn.setOnClickListener(
-	          new OnClickListener() {
-	           @Override
-	           public void onClick(View v) {
-	               Intent myin = new Intent(getApplicationContext(), WriteActivity.class);
-	               startActivity(myin);
-	            }
-	         }
-	    );
 }
+	
 	
 	// ChromeClient for Alert
     private final class ChromeClient extends WebChromeClient {

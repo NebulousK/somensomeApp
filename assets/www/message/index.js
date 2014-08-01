@@ -9,6 +9,7 @@ Ext.setup({
     onReady: function() {
         main.initMainPanel();	
         friend.init();
+        friend.panel_friend.getfriendList();
         main.MainPanel.layout.setActiveItem(friend.panel_friend); 
     }
 });

@@ -112,11 +112,19 @@ public class activity_sns extends Activity {
 				return var.some;
 			}	 
 		}, "android");
-		String strUrl=null;
-		if(var.some.equals(0)){
-			strUrl = "file:///android_asset/www/somensome.html";
-		}else{
+		
+		mWebView.addJavascriptInterface(new Object(){
+			@JavascriptInterface
+			public void write() {
+				Intent myin = new Intent(getApplicationContext(), WriteActivity2.class);
+				startActivity(myin);
+			}		 
+		}, "android2");
+		String strUrl= null;
+		if(var.some.equals("1")){
 			strUrl = "file:///android_asset/www/somensome2.html";
+		}else{
+			strUrl = "file:///android_asset/www/somensome.html";
 		}
 	    mWebView.loadUrl(strUrl);
 	    prgrBar = new ProgressBar(this); 

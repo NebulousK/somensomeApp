@@ -1,10 +1,14 @@
 package com.example.sns;
 
+
+import com.google.android.gcm.GCMRegistrar;
+
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +43,6 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 		setupTabHost();		
 		setupTab(new TextView(this),NEWS);
 		setupTab(new TextView(this),FR);
@@ -87,12 +90,11 @@ public class MainActivity extends TabActivity implements OnTabChangeListener  {
 		tabHost.setOnTabChangedListener(this);
 		setTitle("Some N Some");
 		getActionBar().setIcon(R.drawable.actiontitle);
-		
-	
 
 	}
 	
-
+	
+	 	
 	 private void setupTab(TextView view, String tag) {
 		View tabview = createTabView(tabHost.getContext(),tag);
 		TabSpec setContent = tabHost.newTabSpec(tag).setIndicator(tabview);

@@ -5,7 +5,6 @@ public class ProgressBar {
 	private Context				mCtx;
 	private ProgressDialog 		prgrDlg;	
 	private String				strMessage = "Now Loading...";
-
 	public ProgressBar(Context ctx) {
 		mCtx = ctx;		
 		prgrDlg = null;		

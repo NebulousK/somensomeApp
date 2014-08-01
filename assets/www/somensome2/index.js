@@ -21,7 +21,7 @@ main.initMainPanel = function()
         id:'MainPanel',
         cardSwitchAnimation:"cube",
         layout:'card', 
-        
+
         dockedItems :[{
         	id:'main.toolbar',
             dock: 'bottom',

@@ -122,8 +122,14 @@ detail.panel_detail = new Ext.form.FormPanel({
                         width: '45%',
                         textAlign:'center',
                         text: '친구 신청',    
-                        handler:function(){                                     
-                             main.MainPanel.layout.setActiveItem(list.panel_list); 
+                        handler:function(){ 
+                        	Ext.Ajax.request({
+                                url: common_url + '/mfindadd.friend?myid=' + common_id + '&id='  + Ext.getCmp("panel_detail.user_id").getValue(),
+                                success: function(response, opts) {
+                                    alert("친구 신청 이 되었습니다.");   
+                                    //main.MainPanel.layout.setActiveItem(list.panel_list); 
+                                }
+                            });         
                         },
                     },{ 
                         xtype:'spacer',

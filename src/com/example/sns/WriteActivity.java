@@ -7,8 +7,6 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.example.sns.AndroidUploader.ReturnCode;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.example.sns.AndroidUploader.ReturnCode;
 
 public class WriteActivity extends Activity {
 	private static final String TAG = null;
@@ -118,8 +117,8 @@ public class WriteActivity extends Activity {
 						try {
 							EditText edittext = (EditText) findViewById(R.id.editText1);
 							String content = edittext.getText().toString();
-							//id
-				            AndroidUploader uploader = new AndroidUploader("dnjsqls", content);
+							
+				            AndroidUploader uploader = new AndroidUploader(var.id, content);
 				            //String path = Environment.getExternalStorageDirectory()+"/DCIM/Camera/test.jpg";
 				            if(path != null){
 				            	ReturnCode ecode = uploader.uploadPicture(path);

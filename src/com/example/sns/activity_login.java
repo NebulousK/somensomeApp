@@ -41,24 +41,34 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.example.sns.var;
+import com.google.android.gcm.GCMRegistrar;
 public class activity_login extends Activity {
 	loadJsp task;
 	EditText id, password;	
 	TextView tv;
 	String result;
 	TextView join;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signin);
 		
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		final String regId = GCMRegistrar.getRegistrationId(this);
+		if("".equals(regId))   //구글 가이드에는 regId.equals("")로 되어 있는데 Exception을 피하기 위해 수정
+		      GCMRegistrar.register(this, "682295769917");
+		else
+		      Log.d("==============", regId);
+		 	  Log.i("아시발", regId);
+		
 		id=(EditText) findViewById(R.id.editText1);
 		password=(EditText)findViewById(R.id.editText2);
 		tv=(TextView)findViewById(R.id.error);
 		join=(TextView)findViewById(R.id.join);
-
+		
 		join.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -73,11 +83,10 @@ public class activity_login extends Activity {
 		task=new loadJsp();		
 		task.updateCookie(getBaseContext());
 	}
-
+	
 	public void Onlogin(View v){
 		loadJsp task1=new loadJsp();		
 		task1.execute();		
-		
 	}
 
 	@Override
@@ -98,7 +107,7 @@ public class activity_login extends Activity {
 		
 		public HttpClient client =new DefaultHttpClient();
 		CookieManager cookieManager=CookieManager.getInstance();
-		String postURL = "http://192.168.219.129:8080/homepage/android/adroid_member_login.jsp";
+		String postURL = "http://192.168.10.31/homepage/android/adroid_member_login.jsp";
 
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -128,6 +137,11 @@ public class activity_login extends Activity {
 						Log.i("doInBackground: ","존재하지 않는 아이디");
 						tv.setText("존재 하지 않는 아이디 입니다. 아이디를 확인하세요");
 					}else{
+						SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+						SharedPreferences.Editor editor = prefs.edit();
+						editor.putString("id", id.getText().toString());          //사용자에게 입력받은 strid를 저장 
+						editor.putString("pw", password.getText().toString());      //사용자에게 입력받은 strpw를 저장
+						editor.commit();                            //commit
 						String a[] = responseData.split(",");
 						var.id = a[0];
 						var.no = Integer.parseInt(a[1]);
@@ -135,8 +149,6 @@ public class activity_login extends Activity {
 						var.photo = a[3];
 						var.name = a[4];
 						var.some = a[5];
-						Log.i("수박바",""+a[0]+","+a[1]+","+a[2]+","+a[3]+","+a[4]+","+a[5]);
-						Log.i("fuck",""+a.length);
 						Log.i("doInBackground: ","로그인성공");
 						final ResponseHandler<String> responseHandler=new ResponseHandler<String>() {		
 							@Override
@@ -235,10 +247,78 @@ public class activity_login extends Activity {
         		cookie.setDomain(domain);
         		cookie.setPath(path);
         		cookieStore.addCookie(cookie);
+        		//SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+        		/*String strid = prefs.getString("id", "");
+        		String strpw = prefs.getString("pw", "");
+        		Log.i("id", strid);
+        		Log.i("pw", strpw);
         		Intent intent = new Intent(getBaseContext(), MainActivity.class);
         		startActivity(intent);
-        		finish();
+        		finish();*/
+        		Log.i("여까지옴", "왓냐 쉬밤");
+        		loadJsp2 task2=new loadJsp2();		
+        		task2.execute();		
         	}
         }
+	}
+	
+class loadJsp2 extends AsyncTask<Void, String, Void>{
+		
+		public HttpClient client =new DefaultHttpClient();
+		CookieManager cookieManager=CookieManager.getInstance();
+		String postURL = "http://192.168.10.31/homepage/android/adroid_member_login.jsp";
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				HttpPost post=new HttpPost(postURL);
+				ArrayList<NameValuePair> params1 = new ArrayList<NameValuePair>();
+				SharedPreferences prefs = getSharedPreferences("PrefName", MODE_PRIVATE);
+				String strid = prefs.getString("id", "");
+        		String strpw = prefs.getString("pw", "");
+				//파라미터를 list에 담아 보내기 
+				params1.add(new BasicNameValuePair("id", strid) );
+				params1.add(new BasicNameValuePair("password", strpw));
+				UrlEncodedFormEntity ent= new UrlEncodedFormEntity(params1,HTTP.UTF_8);
+				post.setEntity(ent);
+	             // jsp에서 out.println을 받아오는곳
+	           //  ResponseHandler<String> reshandler = new BasicResponseHandler();
+	            // result = client.execute(post, reshandler).trim(); //이상하게 계속 공백도 같이 저장된다. 공백제거를 위해 trim(). 
+	            HttpResponse responsePOST = client.execute(post); //jsp 결과값 받아오기
+				HttpEntity resEntity=responsePOST.getEntity();
+							
+	         
+				String responseData= EntityUtils.toString(resEntity).toString().trim();		
+	
+				if(resEntity !=null){
+					if(responseData.equals("a")){
+						Log.i("doInBackground: ","비밀번호 오류");
+						tv.setText("비밀 번호가 틀렸습니다. 비밀번호를 확인 하세요");
+					}
+					else if(responseData.equals("b")){
+						Log.i("doInBackground: ","존재하지 않는 아이디");
+						tv.setText("존재 하지 않는 아이디 입니다. 아이디를 확인하세요");
+					}else{
+						String a[] = responseData.split(",");
+						var.id = a[0];
+						var.no = Integer.parseInt(a[1]);
+						var.sex = a[2];
+						var.photo = a[3];
+						var.name = a[4];
+						var.some = a[5];
+						Log.i("수박바",""+a[0]+","+a[1]+","+a[2]+","+a[3]+","+a[4]+","+a[5]);
+						Log.i("fuck",""+a.length);
+						Log.i("doInBackground: ","로그인성공");
+						Intent intent = new Intent(getBaseContext(), MainActivity.class);
+						startActivity(intent);
+						finish(); //스택에서 로그인 엑티비티 제거 
+					}	
+				}
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
+			return null;
+		}
 	}
 }

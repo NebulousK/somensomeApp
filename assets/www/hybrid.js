@@ -1,76 +1,79 @@
-		function callTest() 
+
+		function callPhone(phoneNum)
 		{
-			if(window.NativeBridge == null)
-			{
-				alert("¸ğ¹ÙÀÏ ±â±â¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
-				return;
-			}	
-			window.NativeBridge.callTest('aaa');
-		}
-		function receiveTest(Jv_Value) 
-		{
-			document.forms[0].Fo_Test.value = Jv_Value;
-		}
-		function callPhone()
-		{
-			if(window.NativeBridge == null)
-			{
-				alert("¸ğ¹ÙÀÏ ±â±â¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
-				return;
-			}				
-			window.NativeBridge.callPhone(document.forms[0].Fo_Phone.value);
-		}
-		function callSms()
-		{		
-			if(window.NativeBridge == null)
-			{
-				alert("¸ğ¹ÙÀÏ ±â±â¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
-				return;
-			}					
-			window.NativeBridge.callSms(document.forms[0].Fo_Phone.value, document.forms[0].Fo_Sms.value);
 			
+			if(window.NativeBridge == undefined)
+			{
+				alert('ëª¨ë°”ì¼ ë‹¨ë§ê³¼ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.');
+				return;
+			}
+			window.NativeBridge.callPhone(phoneNum);
+		}
+		function callSms(phoneNum, smsCont)
+		{ 			
+			if(window.NativeBridge == undefined)
+			{
+				alert('ëª¨ë°”ì¼ ë‹¨ë§ê³¼ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.');
+				return;
+			}
+			window.NativeBridge.callSms(phoneNum, smsCont);
 		}
 		function callCamera()
-		{	
-			if(window.NativeBridge == null)
+		{			
+			if(window.NativeBridge == undefined)
 			{
-				alert("¸ğ¹ÙÀÏ ±â±â¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+				alert('ëª¨ë°”ì¼ ë‹¨ë§ê³¼ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.');
 				return;
-			}		
+			}
 			window.NativeBridge.callCamera();
 		}
-		function callNetworkState()
-		{	
-			if(window.NativeBridge == null)
-			{
-				alert("¸ğ¹ÙÀÏ ±â±â¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
-				return;
-			}						
-			window.NativeBridge.callNetworkState();
-		}
-		function receiveNetworkState(inputValue)
+		function callNetworkState(callbackFunc)
 		{			
-			alert(inputValue);
-		}		
-		function callLocationPos()
-		{	
-			if(window.NativeBridge == null)
+			if(window.NativeBridge == undefined)
 			{
-				alert("¸ğ¹ÙÀÏ ±â±â¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+				alert('ëª¨ë°”ì¼ ë‹¨ë§ê³¼ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.');
 				return;
-			}						
-			window.NativeBridge.callLocationPos();
+			}
+			window.NativeBridge.callNetworkState(callbackFunc);
+			// callbackFunc(networkState);
+		}	
+		function receiveNetworkState(networkState)
+		{
+			alert(networkState);
 		}
-		function receiveLocationPos(lng,lat)
+		
+		function callLocationPos(callbackFunc)
 		{			
-			alert(lng + "," + lat);
+			if(window.NativeBridge == undefined)
+			{
+				alert('ëª¨ë°”ì¼ ë‹¨ë§ê³¼ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.');
+				return;
+			}
+			window.NativeBridge.callLocationPos(callbackFunc);
+			// callbackFunc(lng, lat);
+		}
+		function receiveLocationPos(lng, lat)
+		{
+			alert(lng + "," +  lat);
 		}		
+		
 		function callMoviePlayer(movieUrl)
-		{		
-			if(window.NativeBridge == null)
+		{			
+			if(window.NativeBridge == undefined) 
 			{
-				alert("¸ğ¹ÙÀÏ ±â±â¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+				alert('ëª¨ë°”ì¼ ë‹¨ë§ê³¼ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.');
 				return;
-			}					
+			}
 			window.NativeBridge.callMoviePlayer(movieUrl);
-		}		
+		}	
+		
+		function callFileUpload(httpaddr, filename)
+		{
+			if(window.NativeBridge == undefined) 
+			{
+				alert('ëª¨ë°”ì¼ ë‹¨ë§ê³¼ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.');
+				return;
+			}
+			window.NativeBridge.callFileUpload(httpaddr, filename);		
+		
+		}	
