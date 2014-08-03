@@ -1,6 +1,8 @@
 package com.example.sns;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Iterator;
 
@@ -49,7 +51,19 @@ public class GCMIntentService extends GCMBaseIntentService {
     /**단말에서 GCM 서비스 등록 했을 때 등록 id를 받는다*/
     @Override
     protected void onRegistered(Context context, String regId) {
-        Log.d(tag, "onRegistered. regId : "+regId);
+        try {
+        	Log.d(tag, "onRegistered. regId : " + regId);
+			String u_id = java.net.URLEncoder.encode(new String(regId.getBytes("UTF-8")));
+			String id = java.net.URLEncoder.encode(new String(var.id.getBytes("UTF-8")));
+			URL url = new URL("http://192.168.219.184:8080/homepage/pushreg.some?id=" + id + "&regID=" + u_id);
+            url.openStream();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**단말에서 GCM 서비스 등록 해지를 하면 해지된 등록 id를 받는다*/
@@ -63,6 +77,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     	long when = System.currentTimeMillis();
     	NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     	Notification notification = new Notification(icon, message, when);
+    	
     	String title = context.getString(R.string.app_name); 
     	Intent notificationIntent = new Intent(context, MainActivity.class);
     	notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP  | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -70,5 +85,14 @@ public class GCMIntentService extends GCMBaseIntentService {
     	notification.setLatestEventInfo(context, title, message, intent);	 
     	notification.flags |= Notification.FLAG_AUTO_CANCEL;
     	notificationManager.notify(0, notification);
-    	}
+    	//알림창 끝 이제부터 팝업 메시지
+    	Log.i("메세지", message);
+    	var.message = message;
+    	
+    	PushWakeLock.acquireCpuWakeLock(context);  	
+    	Intent inten2 = new Intent(context, popup.class);
+    	inten2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);     
+  	    context.startActivity(inten2);
+    	
+    }
 }

@@ -2,6 +2,8 @@ package com.example.sns;
 
 import java.lang.reflect.Method;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,6 +43,15 @@ public class activity_news extends Activity {
 	   // setContentView(R.layout.activity_news);
 	    Window win = getWindow();
 	    setContentView(R.layout.activity_news);
+	    
+	    GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		final String regId = GCMRegistrar.getRegistrationId(this);
+		if("".equals(regId))   //구글 가이드에는 regId.equals("")로 되어 있는데 Exception을 피하기 위해 수정
+		      GCMRegistrar.register(this, "682295769917");
+		else
+		      Log.d("==============", regId);
+		
 	    //그다음 인플레이션으로 겹치는 레이아웃을 깐다
         LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout linear = (LinearLayout)inflater.inflate(R.layout.writeover, null);

@@ -61,5 +61,6 @@
         <activity android:name="WriteActivity2"></activity>
         <activity android:name="activity_gcm"></activity>
         <service android:name=".GCMIntentService" />
+        <activity android:name="popup" android:theme="@android:style/Theme.Translucent"></activity>
     </application>
 </manifest>

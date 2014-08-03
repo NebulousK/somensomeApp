@@ -1,17 +1,51 @@
 ﻿Ext.ns("message");
 Ext.ns("message.panel_message");
 
-message.init = function(){
-    var messageList;
-    var messageStore;
-    
+var dear;
+
+message.init = function(){    
     Ext.regModel('message', {
     	fields: ['content','sender','no','day','dear','photo']
     });
+
+    var getmessageList2 = function()
+    {
+        Ext.Ajax.request({
+            url: common_url + '/mmemseage.me?id='+ common_id + '&id2=' + dear,
+            success: function(response, opts) {
+                console.log(response.responseText);
+                var JsonData = JSON.parse(response.responseText);
+                console.log(JsonData);
+                if(JsonData.data.err == ""){
+                	setmessage2(JsonData.data.message_list);
+                }
+                else{
+                    alert(JsonData.data.err);
+                }                
+            }
+        });         
+    };
     
-  
+    var getmessageList3 = function()
+    {
+        Ext.Ajax.request({
+            url: common_url + '/mmemseage.me?id='+ common_id + '&id2=' + dear,
+            success: function(response, opts) {
+                console.log(response.responseText);
+                var JsonData = JSON.parse(response.responseText);
+                console.log(JsonData);
+                if(JsonData.data.err == ""){
+                	setmessage3(JsonData.data.message_list);
+                	setTimeout(function() {getmessageList3();}, 2000);
+                }
+                else{
+                    alert(JsonData.data.err);
+                }                
+            }
+        });         
+    };
     
-    messageStore = new Ext.data.Store({
+    var messageStore = new Ext.data.Store({
         model :'message',               
         data:[
                 // 공백
@@ -22,12 +56,12 @@ message.init = function(){
     	messageStore.add(Jv_data);
     };
    
-    messageList = new Ext.XTemplate(//'+ common_id +'
+    var messageList = new Ext.XTemplate(//'+ common_id +'
     		'<tpl for=".">',
-    		'<tpl if="sender==\'happyhiphop\'">',
+    		'<tpl if="sender==\''+ common_id +'\'">',
     	    '<div id="memo_area" class="me">',
     	    '</tpl>',
-    	    '<tpl if="sender==\'iyou\'">',
+    	    '<tpl if="dear==\''+ common_id +'\'">',
     	    '<div id="memo_area" class="you">',
     	    '</tpl>',
     		'<div class="nick_area">',
@@ -53,14 +87,44 @@ message.init = function(){
     					'</tpl>'
     	);
     
+    var dataview = new Ext.DataView({
+    	id:'myview',
+        store: messageStore,
+        tpl: messageList,
+        height: '100%',
+        autoScroll: true,
+        emptyText: '쪽지가 없습니다.',
+        itemSelector:'div.thumb-wrap',
+    });
+    
+    function setmessage2(Jv_data) {
+    	messageStore.removeAll();
+    	messageStore.add(Jv_data);
+    	var aa = dataview.el.dom.scrollHeight - dataview.scroller.size.height;
+    	dataview.scroller.moveTo(0, -aa);
+    	//dataview.scroller.setOffset({x: 0, y: -aa}, false);
+    	//alert(dataview.scroller.getOffset());
+    	//alert(dataview.el.dom.scrollHeight);
+    	//alert(dataview.scroller.size.height);
+    	//alert(dataview.scroller.initialRegion.bottom);
+    };
+    
+    function setmessage3(Jv_data) {
+    	messageStore.removeAll();
+    	messageStore.add(Jv_data);
+    };
+    
+    setTimeout(function() {getmessageList3();}, 2000);
+    
     message.panel_message = new Ext.Panel({
         useCurrentLocation: true,
-        //fullscreen: true,
+        fullscreen: true,
         height:'100%',
         cardSwitchAnimation:"cube",
         setUserId:function(user_id)
         {
             this.input_user_id = user_id;
+            dear = user_id;
         },
         getmessageList:function()
         {
@@ -70,12 +134,12 @@ message.init = function(){
                     console.log(response.responseText);
                     var JsonData = JSON.parse(response.responseText);
                     console.log(JsonData);
-                    if(JsonData.data.err == "")
-                    {
+                    if(JsonData.data.err == ""){
                     	setmessage(JsonData.data.message_list);
+                    	var aa = dataview.el.dom.scrollHeight - dataview.scroller.size.height;
+                    	dataview.scroller.moveTo(0, -aa);
                     }
-                    else
-                    {
+                    else{
                         alert(JsonData.data.err);
                     }                
                 }
@@ -101,8 +165,14 @@ message.init = function(){
                     ui: 'decline-round',
                     name:'button_login',
                     text: '전송',
-                    handler: function(btn,event){
-						alert(Ext.getCmp("message.comment").getValue());	
+                    handler: function(){
+                    	 Ext.Ajax.request({
+                             url: common_url + '/mmemseagesend.me?dear=' + dear + '&content='  +  Ext.getCmp("message.comment").getValue() + '&photo=' + common_photo + '&id=' + common_id,
+                             success: function(response, opts) {
+                                alert("전송 완료");  
+                                getmessageList2();
+                             }
+                         });  
                     } 
                 }
             ]
@@ -125,25 +195,6 @@ message.init = function(){
                 }
             ]
         }], 
-        items: new Ext.DataView({
-        	id:'myview',
-            store: messageStore,
-            tpl: messageList,
-            //autoHeight:true,
-            height: '100%',
-            autoScroll: true,
-            emptyText: '쪽지가 없습니다.',
-            itemSelector:'div.thumb-wrap',
-        }),
-        addScrollList:function(a,b)
-        {
-        	if(b.offset <= 0)
-        		getsomeboardList2();
-        		store.add(addData);
-        }
-    }); /*
-    someboard_list.scroller.scrollTo({
-        x: 0,
-        y: 300
-    });*/
-};   
+        items: dataview, 
+    });
+}; 

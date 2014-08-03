@@ -55,15 +55,6 @@ public class activity_login extends Activity {
 	    super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_signin);
 		
-		GCMRegistrar.checkDevice(this);
-		GCMRegistrar.checkManifest(this);
-		final String regId = GCMRegistrar.getRegistrationId(this);
-		if("".equals(regId))   //구글 가이드에는 regId.equals("")로 되어 있는데 Exception을 피하기 위해 수정
-		      GCMRegistrar.register(this, "682295769917");
-		else
-		      Log.d("==============", regId);
-		 	  Log.i("아시발", regId);
-		
 		id=(EditText) findViewById(R.id.editText1);
 		password=(EditText)findViewById(R.id.editText2);
 		tv=(TextView)findViewById(R.id.error);
@@ -107,7 +98,7 @@ public class activity_login extends Activity {
 		
 		public HttpClient client =new DefaultHttpClient();
 		CookieManager cookieManager=CookieManager.getInstance();
-		String postURL = "http://192.168.10.31/homepage/android/adroid_member_login.jsp";
+		String postURL = "http://192.168.219.184:8080/homepage/android/adroid_member_login.jsp";
 
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -266,7 +257,7 @@ class loadJsp2 extends AsyncTask<Void, String, Void>{
 		
 		public HttpClient client =new DefaultHttpClient();
 		CookieManager cookieManager=CookieManager.getInstance();
-		String postURL = "http://192.168.10.31/homepage/android/adroid_member_login.jsp";
+		String postURL = "http://192.168.219.184:8080/homepage/android/adroid_member_login.jsp";
 
 		@Override
 		protected Void doInBackground(Void... params) {
